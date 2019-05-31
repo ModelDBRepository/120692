@@ -1,0 +1,72 @@
+{load_file("nrngui.hoc")}
+{load_file(1, "fig2-3.ses")}
+proc fig2() {local na, k  localobj g
+	std()
+	a5_nakpump = 0
+	v_init = 0
+	g = Graph[0]
+	g.exec_menu("Keep Lines")
+	for case(&k, 0.1, 3, 20, 120, 200) {
+		kin_nakpump = kout_nakpump = k
+		g.beginline()
+		for (na=0; na <= 150; na += 1) {
+			nain_nakpump = naout_nakpump = na
+			init()	
+			g.line(na, atpact_nakpump)
+		}
+		g.flush()
+	}
+	g.exec_menu("Keep Lines")
+
+	g = Graph[1]
+	g.exec_menu("Keep Lines")
+	for case(&na, 0.1, 3, 10, 20, 40) {
+		nain_nakpump = naout_nakpump = na
+		g.beginline()
+		for (k=0; k <= 150; k += 1) {
+			kin_nakpump = kout_nakpump = k
+			init()	
+			g.line(k, atpact_nakpump)
+		}
+		g.flush()
+	}
+	g.exec_menu("Keep Lines")
+
+	g = Graph[2]
+	g.exec_menu("Keep Lines")
+		g.beginline()
+		for (na=0; na <= 150; na += 1) {
+			nain_nakpump = naout_nakpump = na
+			kin_nakpump = kout_nakpump = 150 - na
+			init()	
+			g.line(na, atpact_nakpump)
+		}
+		g.flush()
+	g.exec_menu("Keep Lines")
+}
+
+fig2()
+
+proc fig3() {local vs localobj g
+	vs = v_init
+	std()
+	g = Graph[3]
+	g.exec_menu("Keep Lines")
+	pv(g, 1, 0)
+	pv(g, 0, 1)
+	pv(g, 3, -2) // differs from legend but according to text
+	g.exec_menu("Keep Lines")
+	a3_nakpump = 0 a5_nakpump = 1
+	v_init = vs
+}
+proc pv() {
+	a3_nakpump = $2
+	a5_nakpump = $3
+	$o1.beginline()
+	for (v_init = -250; v_init <= 100; v_init += 1) {
+		init()
+		$o1.line(v_init, atpact_nakpump)
+	}
+	$o1.flush()
+}
+fig3()

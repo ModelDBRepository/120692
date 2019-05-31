@@ -1,0 +1,12 @@
+{load_file("nrngui.hoc")}
+if (boolean_dialog("", "Figures 1-12", "Dynamic Cell Sim")) {
+	chdir("..")
+	load_file("init.hoc")
+}else{
+	load_file("cellss.ses")
+	nain_nakpump = 140
+	kin_nakpump = 2.5
+	tstop = 1e7
+	tstop_changed()
+	run()
+}

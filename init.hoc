@@ -1,0 +1,55 @@
+{load_file("nrngui.hoc")}
+create soma
+{diam=10 L=100/PI/diam}
+insert nakpump
+
+proc figs() {
+	xpanel("figures")
+	xbutton("Figure 2-3", "load(\"fig2-3.hoc\")")
+	xbutton("Figure 4-6", "load(\"fig4-6.hoc\")")
+	xbutton("Figure 7", "load(\"fig7.hoc\")")
+	xbutton("Figure 8-10", "load(\"fig8-10.hoc\")")
+	xbutton("Figure 11-12", "load(\"fig11-12.hoc\")")
+	xpanel(20, 100)
+}
+
+proc load() {local i localobj gl
+	gl = new List("Graph")
+	objref save_window_
+	graphList[0].remove_all()
+	doNotify()
+	if (numarg() == 1) {
+		load_file(1, $s1)
+	}
+}
+
+proc std() {
+        totalpump_nakpump = 1.25e-13
+        nain_nakpump = 9.6
+        naout_nakpump = 140
+        kin_nakpump = 150.4
+        kout_nakpump = 5.4
+        atp_nakpump = 4.99
+        p_nakpump = 4.95
+        adp_nakpump = 0.06
+        T_nakpump = 310
+
+        f1_nakpump = 2.5e11
+        b1_nakpump = 1e5
+        f2_nakpump = 1e4
+        b2_nakpump = 1e5
+        f3_nakpump = 172
+        b3_nakpump = 1.72e4
+        f4_nakpump = 1.5e7
+        b4_nakpump = 2e5
+        f5_nakpump = 2e6
+        b5_nakpump = 30
+        f6_nakpump = 1.15e4
+        b6_nakpump = 6e8
+
+        beta_nakpump = .5
+        a3_nakpump = 0
+        a5_nakpump = 1
+}
+
+figs()

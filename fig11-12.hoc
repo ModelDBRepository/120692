@@ -1,0 +1,49 @@
+{load_file("fig11-12.ses")}
+
+double c[8]
+
+proc fig11() {
+	std()
+	pv(Graph[0], &kbind)
+	pv(Graph[0], &nabind)
+}
+proc comp() {local rt, fv, i
+	rt = R*T_nakpump
+	fv = FARADAY*$1
+	init($1)
+	kbind = (k2e_nakpump + k2eatp_nakpump)/totalpump_nakpump
+	nabind = (na3eatp_nakpump + na3ep_nakpump)/totalpump_nakpump
+	c[0] = 3*rt*log(naout_nakpump/nain_nakpump) + 2*rt*log(kin_nakpump/kout_nakpump)
+	c[0] *= 1e-3
+	c[1] = c[0] - fv*1e-6
+	for i=1,5 {
+		c[i+1] = c[i] + rt*log(rf_nakpump[i]/rb_nakpump[i])*1e-3
+	}
+}
+proc pv() {
+	$o1.beginline(1,1)
+	for (v_init = -250; v_init <= 50; v_init += 1) {
+		comp(v_init)
+		$o1.line(v_init, $&2)
+	}
+	$o1.flush()
+	v_init = 0
+}
+	
+fig11()
+
+proc fig12() {local i, d
+	std()
+	for i=0, 7 {
+		pv(Graph[1], &c[i])
+	}
+	d = atp_nakpump - 3.0
+	atp_nakpump -= d
+	adp_nakpump += d
+	
+	for i=0, 7 {
+		pv(Graph[2], &c[i])
+	}
+	std()
+}
+fig12()

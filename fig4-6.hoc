@@ -1,0 +1,50 @@
+{load_file(1, "fig4-6.ses")}
+
+proc fig45() {localobj g, g5
+	std()
+	g = Graph[0]
+	g5 = Graph[1]
+	pv(g,1) pc(g5)
+	// discrepancy in following rates, line B in Fig 4
+	b2_nakpump=1e7
+	f3_nakpump=1000 b3_nakpump=5e4
+	f4_nakpump=1e8 b4_nakpump=1.33e6
+	b5_nakpump=1 f6_nakpump=1.91e4
+	pv(g,1) pc(g5)
+	std()
+	f5_nakpump=2e5
+	f6_nakpump=115 b6_nakpump=6e5
+	pv(g,1) pc(g5)
+}
+proc pv() {
+	$o1.beginline($2,1)
+	for (v_init = -250; v_init <= 50; v_init += 1) {
+		init()
+		$o1.line(v_init, atpact_nakpump)
+	}
+	$o1.flush()
+}
+proc pc() {
+	$o1.beginline()
+	for (na=0; na <= 150; na += 1) {
+		nain_nakpump = naout_nakpump = na
+		kin_nakpump = kout_nakpump = 150 - na
+		init()
+		$o1.line(na, atpact_nakpump)
+	}
+	$o1.flush()
+}
+fig45()
+
+proc fig6() {localobj g
+	g = Graph[2]
+	std()
+	pv(g,1)
+	atp_nakpump -= 1.99  adp_nakpump += 1.99
+	pv(g,1)
+	std()
+	naout_nakpump = 200  kout_nakpump = 0.1
+	pv(g,1)
+}
+fig6()
+

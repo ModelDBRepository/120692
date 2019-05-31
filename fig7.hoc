@@ -1,0 +1,23 @@
+{load_file(1, "fig7.ses")}
+
+proc fig7() {local vi
+	for case(&vi, 0, -85) {
+		pc(Graph[0],50,&nain_nakpump(.5),vi)
+		pc(Graph[1],10,&kout_nakpump(.5),vi)
+		pc(Graph[2],150,&naout_nakpump(.5),vi)
+		pc(Graph[3],150,&kin_nakpump(.5),vi)
+	}
+}
+proc pc() {local x
+	std()
+	$o1.beginline()
+	v_init = $4
+	for (x=0; x <= $2; x += $2/100) {
+		$&3 = x
+		init()
+		$o1.line(x, atpact_nakpump)
+	}
+	$o1.flush()
+}
+
+fig7()
